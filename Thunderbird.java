@@ -70,19 +70,20 @@ class ContactTile extends JPanel {
         int panelHeight = getHeight();
 
         if (isAnAisle) {
-            g.setColor(new Color(0,0,0));
+            g.setColor(new Color(0,0,204));
         } else {
-            g.setColor(new Color(red,green,blue));
+            g.setColor(new Color(0,0,204));//Assigns color of tile
         }
         
         g.fillRect (10, 10, panelWidth-20, panelHeight-20);
 
-        g.setColor(new Color(GetContrastingColor(red),GetContrastingColor(green),GetContrastingColor(blue)));
+        //g.setColor(new Color(GetContrastingColor(red),GetContrastingColor(green),GetContrastingColor(blue)));
+        g.setColor(new Color(255,255,0));//Assigns color of the Name
 
         final int fontSize=18;
         g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
         int stringX = (panelWidth/2)-40;
-        int stringY = (panelHeight/2)+10;//CHANGE
+        int stringY = (panelHeight/2)+10;//KAI: Changed the y coord. of the name so they appear in the box
         if (contactInSeat != null) {
 
             // ToDo: Display preferred name instead of first and last name. 
@@ -92,9 +93,6 @@ class ContactTile extends JPanel {
         }
     }
 
-    private static int GetContrastingColor(int colorIn) {
-        return ((colorIn+128)%256);
-    }
 }
 
 class ThunderbirdLiteFrame extends JFrame implements ActionListener {
@@ -171,6 +169,7 @@ public class Thunderbird{
     public static void main(String[] args) {
 
         // Todo: Update the following line so that it reflects the name change to Thunderbird.
+        //KAI: I changed the name from ThunderbirdLite to Thunderbird
         System.out.println("Thunderbird Starting...");
 
         ThunderbirdLiteFrame myThunderbirdLiteFrame = new ThunderbirdLiteFrame();

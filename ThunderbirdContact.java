@@ -13,16 +13,12 @@ class ThunderbirdContact extends HttpRequest implements Runnable {
     public String getFirstName() {
         if(firstName.equals("")){
             String error = "User";
-            return error +""+ Integer.toString(seatLocation);
-        }else if(firstName.equals("71")){
-            String name = "Aiden";
-            return name +""+Integer.toString(seatLocation);
+            return error +" "+ Integer.toString(seatLocation);
         }else{
-            return Integer.toString(seatLocation) + " " + firstName;}
+            return Integer.toString(seatLocation) + " " + firstName;
+        }
     }
-    //there is an issue with one of the JSON files where there is no preferred name
-    //and the first name is 71.
-
+    
     private String lastName;
     public String getLastName() {return lastName; }
     
@@ -32,19 +28,26 @@ class ThunderbirdContact extends HttpRequest implements Runnable {
     private String preferredName;
     public String getPreferredName(){ 
         if(preferredName.equals("")){
-            return firstName+""+Integer.toString(seatLocation);
+            return firstName+" "+Integer.toString(seatLocation);
         }else{
             return preferredName+" "+ Integer.toString(seatLocation);
         }
     }
 
+    private String email;
+    public String getEmail(){return email;}
+
+    //KAI: Added the preferred name and Email field
     ThunderbirdContact(String urlIn) {
         super(urlIn);
 
         firstName = "";
         lastName = "";
         seatLocation = 0;
-        preferredName = "";//added preferred name field
+        preferredName = "";
+        email = "";
+        
+        //KAI: added preferred name field
 
         // Todo: Add additional fields. 
     }
@@ -65,6 +68,7 @@ class ThunderbirdContact extends HttpRequest implements Runnable {
             String[] subString = s.split("\"");
 
             // Todo: Parse for additional fields. 
+            //KAI: Added the preferred name field
             if (subString.length > 3) {
                 if (subString[1].equals("firstName")) {
                     firstName = subString[3]; 
@@ -74,8 +78,9 @@ class ThunderbirdContact extends HttpRequest implements Runnable {
                 }
                 if (subString[1].equals("preferredName")){
                     preferredName = subString[3];
-                }else{
-                    firstName = subString[3];
+                }
+                if (subString[1].equals("email")){
+                    email = subString[3];
                 }
                 if (subString[1].equals("seatLocation")) {
                     try {
@@ -102,8 +107,19 @@ class ThunderbirdContact extends HttpRequest implements Runnable {
         } else if (lastName.length() == 0) {   
             System.out.println("Validating: " + requestURL);
             System.out.println("    **Failed**: Last Name (\"lastName\") required but not found\n\n");
-            System.out.println(this);          
-        } else {
+            System.out.println(this); 
+        
+        } else if(preferredName.length() == 0){
+            System.out.println("Validating: " + requestURL);
+            System.out.println("    **Failed**: Preferred Name (\"preferredName\") required but not found\n\n");
+            System.out.println(this);
+
+        } else if(email.length() == 0){
+            System.out.println("Validating: " + requestURL);
+            System.out.println("    **Failed**: email (\"email\") required but not found\n\n");
+            System.out.println(this);
+
+        }else{
             System.out.println("Validating: " + requestURL + "... Passed!");
         }
 
@@ -112,7 +128,7 @@ class ThunderbirdContact extends HttpRequest implements Runnable {
             System.out.println("    **Failed**: No content loaded\n");
             return; // Returning from the middle of a method is controversial.
 
-            //I simply moved from the top, to the end of the method
+            //KAI: I simply moved from the top, to the end of the method
         }
 
     }
