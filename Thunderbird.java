@@ -32,52 +32,42 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 class ContactTile extends JPanel {
-    private int red, green, blue;
+    //private int red, green, blue;
+    private Color tileColor = Color.LIGHT_GRAY;
     private ThunderbirdContact contactInSeat = null;
 
     private Boolean isAnAisle = false;
-    public void setAisle() { isAnAisle = true; }
-
+    public void setAisle() {isAnAisle = true;}
+    
+    public void setTileColor() {
+        tileColor = Color.BLUE;
+        isAnAisle = true;
+    }
+    
     ContactTile() {
         super();
 
         // Todo: Remove everything to do with random colors.
         // Todo: Implement visually appealing colors for aisles and seats.
-        SetRandomValues();
     }
-
     ContactTile(ThunderbirdContact contactInSeatIn) {
         super();
-        SetRandomValues();
         contactInSeat = contactInSeatIn;
     }
-
-    final public void SetRandomValues() {
-        red = GetNumberBetween(0,255);
-        green = GetNumberBetween(0,255);
-        blue = GetNumberBetween(0,255);
-    }
-
-    private static int GetNumberBetween(int min, int max) {
-        Random myRandom = new Random();
-        return min + myRandom.nextInt(max-min+1);
-    }   
-
-     public void paintComponent(Graphics g) {
+   
+    public void paintComponent(Graphics g) {
         super.paintComponent(g); 
 
         int panelWidth = getWidth();
         int panelHeight = getHeight();
 
         if (isAnAisle) {
+            g.setColor(new Color(160,160,160));
+        }else{
             g.setColor(new Color(0,0,204));
-        } else {
-            g.setColor(new Color(0,0,204));//Assigns color of tile
-        }
+        } 
         
         g.fillRect (10, 10, panelWidth-20, panelHeight-20);
-
-        //g.setColor(new Color(GetContrastingColor(red),GetContrastingColor(green),GetContrastingColor(blue)));
         g.setColor(new Color(255,255,0));//Assigns color of the Name
 
         final int fontSize=18;
@@ -87,7 +77,7 @@ class ContactTile extends JPanel {
         if (contactInSeat != null) {
 
             // ToDo: Display preferred name instead of first and last name. 
-            
+            //KAI: puts preferred name in seat, but puts first name if there is none
             String preferredNameSeat = contactInSeat.getPreferredName();
             g.drawString(preferredNameSeat,stringX,stringY);
         }
@@ -132,6 +122,7 @@ class ThunderbirdLiteFrame extends JFrame implements ActionListener {
 
         tileList = new ArrayList<ContactTile>();
         
+        int k = 0;
         for(int i=0; i<99; i++) {
             ThunderbirdContact contactInSeat = tbM.findContactInSeat(i);
             if (contactInSeat != null) {
@@ -141,10 +132,17 @@ class ThunderbirdLiteFrame extends JFrame implements ActionListener {
             ContactTile tile = new ContactTile(contactInSeat);
 
             // Todo: Place all the aisle seats in a array or an ArrayList instead of hard coding them. 
-            if ((i==4)||(i==12)||(i==31)) {
-                tile.setAisle();
-            }
+            final int[] seats = {0,1,2,3,4,5,6,7,8,9,11,14,17,18,20,21,22,23,26,27,29,32,35,36,38,39,40,41,42,43,44,
+            45,47,50,53,54,56,57,58,59,62,63,65,68,71,72,74,75,76,77,80,81,83,86,87,88,89,90,91,92,93,94,95,96,97,98};
+            //KAI: I placed all the aisle spots in the grid into this array
 
+            if (seats[k] == (i+1)) {
+                tile.setAisle();
+                if(seats.length != (k + 1)){
+                    k++;
+                }
+            }
+            
             tileList.add(tile);
             contactGridPanel.add(tile);
         }
@@ -153,15 +151,19 @@ class ThunderbirdLiteFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for(ContactTile tile : tileList) {
             // Todo: Remove randomization functionality and implement a visually appealing view of seats and aisles.
-            tile.SetRandomValues();
+            //KAI: Removed randomization
 
             // Todo: Implement reverse view where it looks like you are looking at the room from the back instead of the front 
             //     of the room. 
+
+            //KAI: I was not able to figure this part out.
         }
 
         repaint();
     }
 }
+
+
 
 // Todo: Rename the following class to Thunderbird.
 // Hint: This will also require you to rename the Java file.
