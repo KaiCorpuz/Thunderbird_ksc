@@ -37,9 +37,8 @@ class ContactTile extends JPanel {
     private ThunderbirdContact contactInSeat = null;
 
     private Boolean isAnAisle = false;
-    public void setAisle() {isAnAisle = true;}
     
-    public void setTileColor() {
+    public void newTileColor() {
         tileColor = Color.BLUE;
         isAnAisle = true;
     }
@@ -61,12 +60,14 @@ class ContactTile extends JPanel {
         int panelWidth = getWidth();
         int panelHeight = getHeight();
 
-        if (isAnAisle) {
-            g.setColor(new Color(160,160,160));
-        }else{
-            g.setColor(new Color(0,0,204));
-        } 
-        
+        g.setColor(tileColor);
+        g.drawRect(0, 0, panelWidth, panelHeight);
+
+        if (!isAnAisle) {
+            g.setColor(Color.BLACK);
+            g.drawRect(0, 0, panelWidth, panelHeight);
+        }
+
         g.fillRect (10, 10, panelWidth-20, panelHeight-20);
         g.setColor(new Color(255,255,0));//Assigns color of the Name
 
@@ -132,17 +133,16 @@ class ThunderbirdLiteFrame extends JFrame implements ActionListener {
             ContactTile tile = new ContactTile(contactInSeat);
 
             // Todo: Place all the aisle seats in a array or an ArrayList instead of hard coding them. 
-            final int[] seats = {0,1,2,3,4,5,6,7,8,9,11,14,17,18,20,21,22,23,26,27,29,32,35,36,38,39,40,41,42,43,44,
-            45,47,50,53,54,56,57,58,59,62,63,65,68,71,72,74,75,76,77,80,81,83,86,87,88,89,90,91,92,93,94,95,96,97,98};
-            //KAI: I placed all the aisle spots in the grid into this array
-
-            if (seats[k] == (i+1)) {
-                tile.setAisle();
-                if(seats.length != (k + 1)){
+            final int[] aisleSpots = {1,2,3,4,5,6,7,8,9,10,12,15,18,19,21,22,23,24,27,28,30,33,36,37,39,40,41,42,43,44,
+                45,46,48,51,54,55,57,58,59,60,63,64,66,69,72,73,75,76,77,78,79,80,81,82,84,87,88,89,90,91,92,93,96,97,98,99};
+            //KAI: I placed all the aisle spots in the grid into this array and made them blue.
+            //     Nathin W helped me with the placements of the aisle and seat squares.
+            if (aisleSpots[k] == (i+1)) {
+                tile.newTileColor();
+                if(aisleSpots.length != (k + 1)){
                     k++;
                 }
             }
-            
             tileList.add(tile);
             contactGridPanel.add(tile);
         }
