@@ -133,7 +133,7 @@ class ThunderbirdLiteFrame extends JFrame implements ActionListener {
 
             // Todo: Place all the aisle seats in a array or an ArrayList instead of hard coding them. 
             final int[] aisleSpots = {1,2,3,4,5,6,7,8,9,10,12,15,18,19,21,22,23,24,27,28,30,33,36,37,39,40,41,42,43,44,
-                45,46,48,51,54,57,58,59,60,63,64,66,69,72,73,75,76,77,78,79,80,81,82,84,88,89,90,91,92,93,96,97,98,99};
+                45,46,48,51,54,55,57,58,59,60,63,64,66,69,72,73,75,76,77,78,79,80,81,82,84,87,88,89,90,91,92,93,96,97,98,99};
             //KAI: I placed all the aisle spots in the grid into this array and made them blue.
             //     Nathin W helped me with the placements of the aisle and seat squares.
             if (aisleSpots[k] == (i+1)) {
